@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
 const validations_1 = [
   body('name')
@@ -37,4 +38,22 @@ const validations_2 = [
     .withMessage('Invalid email address')
 ];
 
-module.exports = { validations_1,validations_2, validationResult };
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'] || req.headers['Authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access token missing' });
+  }
+
+  const secretKey = process.env.JWT_SECRET || 'your_secret_key';
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid or expired token' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+module.exports = { validations_1, validations_2, validationResult, authenticateToken };

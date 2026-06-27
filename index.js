@@ -1,7 +1,7 @@
 const express = require('express');
 const { DataModel } = require('./Components/Users');
 const connect = require('./Components/connection');
-const { validationResult, validations_1, validations_2 } = require('./Components/validations');
+const { validationResult, validations_1, validations_2, authenticateToken } = require('./Components/validations');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 
@@ -68,6 +68,9 @@ app.post("/login", validations_2, async (req, res) => {
   }
 });
 
+app.get('/protected', authenticateToken, (req, res) => {
+  res.json({ message: 'Token is valid', user: req.user });
+});
 
 app.listen(5000, () => {
   console.log('Server started on port 5000');
