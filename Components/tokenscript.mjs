@@ -47,6 +47,11 @@ console.log('');
 console.log('Payload:', payload);
 console.log('Issued at:', iatStr);
 console.log('Expires at:', expStr);
+// Also print Unix epoch seconds format
+const iatEpoch = decoded && decoded.iat ? decoded.iat : null;
+const expEpoch = decoded && decoded.exp ? decoded.exp : null;
+console.log('Issued at (epoch):', iatEpoch);
+console.log('Expires at (epoch):', expEpoch);
 
 if (opts.help) {
   console.log('\nUsage: node Components/tokenscript.mjs --name "Name" --email "a@b.com" --expires 1h --secret your_secret');
