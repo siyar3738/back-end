@@ -35,11 +35,17 @@ if (decoded && decoded.exp) {
   const expDate = new Date(decoded.exp * 1000);
   expStr = expDate.toISOString() + ' (' + expDate.toLocaleString() + ')';
 }
+let iatStr = 'unknown';
+if (decoded && decoded.iat) {
+  const iatDate = new Date(decoded.iat * 1000);
+  iatStr = iatDate.toISOString() + ' (' + iatDate.toLocaleString() + ')';
+}
 
 console.log('Generated JWT token:');
 console.log(token);
 console.log('');
 console.log('Payload:', payload);
+console.log('Issued at:', iatStr);
 console.log('Expires at:', expStr);
 
 if (opts.help) {
