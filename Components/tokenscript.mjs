@@ -23,7 +23,7 @@ function parseArgs() {
 const opts = parseArgs();
 const name = opts.name || 'User';
 const email = opts.email || 'user@example.com';
-const expires = opts.expires || '1h';
+const expires = opts.expires || '1d';
 const secretKey = process.env.JWT_SECRET || opts.secret || 'your_secret_key';
 
 const payload = { name, email };
